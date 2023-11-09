@@ -22,6 +22,7 @@ function App() {
       .map((card) => ({ ...card, id: Math.random() }));
     setCards(shuffledCards);
     setTurns(20);
+    setMatchedPairs([]);
     // console.log(shuffledCards);
   };
   const handleChoice = (card) => {
@@ -64,18 +65,26 @@ function App() {
     setDisabled(false); //enables card clicking again.
   };
   //console.log(cards, turns);
+  useEffect(() => {
+    if (turns === 0) {
+      alert("Game over");
+      shuffleCards();
+    }
+  }, [turns]);
   return (
     <div className="App">
       <h1>Memory Game</h1>
 
-      {matchedPairs.length === Obj.length ? (
+      {matchedPairs.length === Obj.length && turns !== 20 ? (
         <>
           <div>You win </div>
           <button onClick={shuffleCards}>Restart the Game</button>
         </>
       ) : (
         <>
-          <button onClick={shuffleCards}>Start the Game</button>
+          <button onClick={shuffleCards}>
+            {turns < 20 ? "Restart the Game" : "Start the Game"}
+          </button>
         </>
       )}
       <div className="container">
